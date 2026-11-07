@@ -1,0 +1,8 @@
+Explainability feature,Regulatory requirement addressed,What it provides
+Permutation importance (global),State rate-filing justification of rating factors,Shows which factors move predictions and by how much
+Occlusion / premium breakdown (per member),"Insurance rate filing, ECOA adverse-action reasons",Gives point-in-time reasons for a price or decision
+Partial dependence plots,CMS risk-adjustment transparency,Shows the shape of the effect of each clinical factor
+Counterfactual search,"ECOA adverse action, consumer transparency",States what would have to change for a better outcome
+Model cards,"EU AI Act conformity assessment (high risk), documentation duties","Documents data, limits, performance, monitoring"
+Feature selection record and catalog,HIPAA minimum-necessary standard,Justifies each clinical field used in financial models
+Subgroup predictive ratios,Fairness and anti-discrimination review,"Checks pricing accuracy across plan, region and age groups"

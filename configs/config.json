@@ -1,0 +1,10 @@
+{
+  "data_sources": {
+    "clinicaltrials": "https://clinicaltrials.gov/api/v2/studies",
+    "openfda_faers": "https://api.fda.gov/drug/event.json",
+    "who_gho": "https://ghoapi.azureedge.net/api",
+    "mimic_iv": "PhysioNet credentialed access (needs CITI training); not used in this build"
+  },
+  "split": {"train_years": [2019, 2020], "embargo_year": 2021, "test_year": 2022},
+  "secrets": "API keys come from environment variables (see .env.example), never from this file"
+}

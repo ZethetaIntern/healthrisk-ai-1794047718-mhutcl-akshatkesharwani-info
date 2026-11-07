@@ -1,0 +1,15 @@
+[project]
+name = "healthrisk-ai"
+version = "1.0.0"
+description = "Healthcare risk analytics for insurance and pharma (synthetic-data prototype)"
+requires-python = ">=3.10"
+dependencies = ["numpy>=1.26", "pandas>=2.0", "scikit-learn>=1.4", "scipy>=1.11", "matplotlib>=3.8"]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0", "pytest-cov>=5.0", "ruff>=0.4"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 180

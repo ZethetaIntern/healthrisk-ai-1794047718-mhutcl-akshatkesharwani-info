@@ -1,0 +1,12 @@
+services:
+  lab:                 # HealthRisk Lab demo (quick)
+    build: .
+    command: ["python", "-m", "simulation.lab", "--demo"]
+  tests:               # unit and integration tests
+    build: .
+    command: ["python", "tests/run_tests.py"]
+  pipeline:            # data generation, features and all models (a few minutes)
+    build: .
+    command: ["sh", "-c", "python run_models.py && python run_sim.py"]
+    volumes:
+      - ./results:/app/results

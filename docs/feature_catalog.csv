@@ -1,0 +1,53 @@
+feature,category,formula,financial_rationale,validation
+age,demographic,years,age drives baseline cost and mortality,range and missingness checked in ops.validate_patients
+sex,demographic,0 male / 1 female,rating factor,range and missingness checked in ops.validate_patients
+plan,demographic,plan type code,benefit design and risk adjustment,range and missingness checked in ops.validate_patients
+region,demographic,region code,price level,range and missingness checked in ops.validate_patients
+tobacco,demographic,0/1,classic rating factor,range and missingness checked in ops.validate_patients
+hcc_score,diagnosis,0.25 + 0.01 x (age-60) + 0.03 x sex + sum of condition weights,CMS-style risk adjustment,range and missingness checked in ops.validate_patients
+hcc_count,diagnosis,number of conditions with non-zero HCC weight,risk-adjusted condition burden,range and missingness checked in ops.validate_patients
+charlson,diagnosis,sum of Charlson weights,mortality comorbidity index,range and missingness checked in ops.validate_patients
+n_conditions,diagnosis,count of chronic conditions,comorbidity burden,range and missingness checked in ops.validate_patients
+hba1c_last,lab,"last HbA1c, %",diabetes control,range and missingness checked in ops.validate_patients
+egfr_last,lab,"last eGFR, mL/min",kidney function,range and missingness checked in ops.validate_patients
+hba1c_slope,lab,OLS slope over 4 measurements,worsening glucose control,range and missingness checked in ops.validate_patients
+egfr_slope,lab,OLS slope over 4 measurements,declining renal function,range and missingness checked in ops.validate_patients
+ldl,lab,LDL mg/dL,cardiovascular risk,range and missingness checked in ops.validate_patients
+sbp,lab,systolic BP mmHg,hypertension control,range and missingness checked in ops.validate_patients
+n_labs,lab,number of measurements (missing not at random),sicker patients are tested more,range and missingness checked in ops.validate_patients
+hba1c_var,lab,std of HbA1c,unstable control,range and missingness checked in ops.validate_patients
+egfr_var,lab,std of eGFR,unstable renal function,range and missingness checked in ops.validate_patients
+med_count,medication,number of drugs,polypharmacy proxy,range and missingness checked in ops.validate_patients
+ddi_major,medication,major interacting pairs among drugs,adverse events,range and missingness checked in ops.validate_patients
+ddi_moderate,medication,moderate interacting pairs,adverse events,range and missingness checked in ops.validate_patients
+class_diversity,medication,distinct ATC classes,regimen complexity,range and missingness checked in ops.validate_patients
+polypharmacy_score,medication,0-3 bucket of drug count,polypharmacy,range and missingness checked in ops.validate_patients
+adherence_mpr,medication,medication possession ratio,adherence,range and missingness checked in ops.validate_patients
+prior_hosp,utilisation,admissions in prior 12 months,strongest utilisation signal,range and missingness checked in ops.validate_patients
+prior_ed,utilisation,ED visits,acute instability,range and missingness checked in ops.validate_patients
+prior_specialist,utilisation,specialist visits,care intensity,range and missingness checked in ops.validate_patients
+prior_pcp,utilisation,primary-care visits,access to care,range and missingness checked in ops.validate_patients
+log_prior_cost,utilisation,ln(1 + prior-year cost),strongest single cost predictor,range and missingness checked in ops.validate_patients
+prior_cost_trend,utilisation,year-over-year cost change,trajectory,range and missingness checked in ops.validate_patients
+clinical_trajectory_score,fusion,"weighted z of HbA1c slope, -eGFR slope, cost trend",single clinical deterioration number,range and missingness checked in ops.validate_patients
+interaction_burden,fusion,3 x major + 2 x moderate DDI,polypharmacy risk,range and missingness checked in ops.validate_patients
+cond_diabetes,diagnosis,1 if ICD-10 E11 present,diabetes drives utilisation and cost,binary
+cond_hypertension,diagnosis,1 if ICD-10 I10 present,hypertension drives utilisation and cost,binary
+cond_hyperlipidemia,diagnosis,1 if ICD-10 E78 present,hyperlipidemia drives utilisation and cost,binary
+cond_ckd,diagnosis,1 if ICD-10 N18 present,ckd drives utilisation and cost,binary
+cond_heart_failure,diagnosis,1 if ICD-10 I50 present,heart_failure drives utilisation and cost,binary
+cond_copd,diagnosis,1 if ICD-10 J44 present,copd drives utilisation and cost,binary
+cond_cad,diagnosis,1 if ICD-10 I25 present,cad drives utilisation and cost,binary
+cond_cancer,diagnosis,1 if ICD-10 C34 present,cancer drives utilisation and cost,binary
+cond_depression,diagnosis,1 if ICD-10 F32 present,depression drives utilisation and cost,binary
+cond_afib,diagnosis,1 if ICD-10 I48 present,afib drives utilisation and cost,binary
+cond_obesity,diagnosis,1 if ICD-10 E66 present,obesity drives utilisation and cost,binary
+cond_stroke,diagnosis,1 if ICD-10 I63 present,stroke drives utilisation and cost,binary
+cond_dementia,diagnosis,1 if ICD-10 G30 present,dementia drives utilisation and cost,binary
+cond_osteoporosis,diagnosis,1 if ICD-10 M81 present,osteoporosis drives utilisation and cost,binary
+cond_gerd,diagnosis,1 if ICD-10 K21 present,gerd drives utilisation and cost,binary
+cond_asthma,diagnosis,1 if ICD-10 J45 present,asthma drives utilisation and cost,binary
+cond_bph,diagnosis,1 if ICD-10 N40 present,bph drives utilisation and cost,binary
+cond_hypothyroid,diagnosis,1 if ICD-10 E03 present,hypothyroid drives utilisation and cost,binary
+cond_sleep_apnea,diagnosis,1 if ICD-10 G47 present,sleep_apnea drives utilisation and cost,binary
+cond_back_pain,diagnosis,1 if ICD-10 M54 present,back_pain drives utilisation and cost,binary

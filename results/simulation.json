@@ -1,0 +1,217 @@
+{
+ "scenarios": 12,
+ "catalogue": {
+  "Pandemic Outbreak": {
+   "claims_multiplier": 1.35,
+   "hospital_pd_multiplier": 1.9,
+   "duration_q": 4,
+   "early_signal": true
+  },
+  "Seasonal Flu Surge": {
+   "claims_multiplier": 1.08,
+   "hospital_pd_multiplier": 1.1,
+   "duration_q": 1,
+   "early_signal": true
+  },
+  "Drug Safety Crisis (black box warning)": {
+   "claims_multiplier": 1.1,
+   "hospital_pd_multiplier": 1.1,
+   "duration_q": 2,
+   "early_signal": false
+  },
+  "Regulatory Reimbursement Cut (-3% Medicare)": {
+   "claims_multiplier": 0.98,
+   "hospital_pd_multiplier": 1.6,
+   "duration_q": 4,
+   "early_signal": false
+  },
+  "Hospital System Merger": {
+   "claims_multiplier": 1.0,
+   "hospital_pd_multiplier": 0.9,
+   "duration_q": 2,
+   "early_signal": false
+  },
+  "Gene Therapy Launch Claims Shock": {
+   "claims_multiplier": 1.12,
+   "hospital_pd_multiplier": 1.0,
+   "duration_q": 4,
+   "early_signal": false
+  },
+  "Opioid-Style Litigation Wave": {
+   "claims_multiplier": 1.06,
+   "hospital_pd_multiplier": 1.25,
+   "duration_q": 6,
+   "early_signal": false
+  },
+  "Cyberattack on Hospital Network": {
+   "claims_multiplier": 1.02,
+   "hospital_pd_multiplier": 1.5,
+   "duration_q": 1,
+   "early_signal": false
+  },
+  "Antimicrobial Resistance Outbreak": {
+   "claims_multiplier": 1.15,
+   "hospital_pd_multiplier": 1.4,
+   "duration_q": 3,
+   "early_signal": true
+  },
+  "Drug Pricing Regulation (IRA-style)": {
+   "claims_multiplier": 0.97,
+   "hospital_pd_multiplier": 1.0,
+   "duration_q": 4,
+   "early_signal": false
+  },
+  "Rural Hospital Closure Wave": {
+   "claims_multiplier": 1.03,
+   "hospital_pd_multiplier": 1.8,
+   "duration_q": 4,
+   "early_signal": false
+  },
+  "Positive Surprise: Cost Trend Falls": {
+   "claims_multiplier": 0.94,
+   "hospital_pd_multiplier": 0.8,
+   "duration_q": 3,
+   "early_signal": false
+  }
+ },
+ "mode1": {
+  "quarters": 20,
+  "naive_mean": 587,
+  "ai_mean": 710,
+  "ai_beats_naive_share": 1.0
+ },
+ "mode2": {
+  "quarters": 40,
+  "naive_mean": 451,
+  "ai_mean": 727,
+  "ai_beats_naive_share": 1.0
+ },
+ "mode3": {
+  "quarters": 20,
+  "naive_mean": 274,
+  "ai_mean": 402,
+  "ai_beats_naive_share": 0.7
+ },
+ "mode4": {
+  "quarters": 40,
+  "naive_mean": 399,
+  "ai_mean": 579,
+  "ai_beats_naive_share": 1.0
+ },
+ "complete_10_year_run_master_mode_ai": {
+  "mode": 4,
+  "quarters": 40,
+  "total": 612,
+  "rating": "HealthRisk Analyst",
+  "category_points": {
+   "insurance": 149.0,
+   "hospital": 160.0,
+   "pharma": 68.1,
+   "facility": 97.8,
+   "cross": 87.6,
+   "speed": 50.0
+  },
+  "max_points": {
+   "insurance": 250,
+   "hospital": 250,
+   "pharma": 200,
+   "facility": 150,
+   "cross": 100,
+   "speed": 50
+  },
+  "detail": {
+   "insurance": {
+    "mlr_compliance": 10.5,
+    "reserve_adequacy": 54.4,
+    "profitability": 35.2,
+    "member_satisfaction": 48.9
+   },
+   "hospital": {
+    "default_avoidance": 0.0,
+    "spread_capture": 60.0,
+    "early_warning": 63.0,
+    "portfolio_quality": 37.0
+   },
+   "pharma": {
+    "absolute_return": 22.1,
+    "sharpe": 22.0,
+    "hit_rate": 24.0,
+    "drawdown_control": 0.0
+   },
+   "facility": {
+    "loss_avoidance": 29.2,
+    "covenant_monitoring": 41.7,
+    "exposure_mgmt": 27.0
+   },
+   "cross": {
+    "correlation_mgmt": 36.0,
+    "scenario_response": 30.0,
+    "hedging": 21.6
+   },
+   "speed": {
+    "timeliness": 30.0,
+    "documentation": 20.0
+   }
+  },
+  "hospital_defaults": 9,
+  "sharpe": 0.37,
+  "max_drawdown_pct": -25.9,
+  "mlr_in_band_share": 0.17
+ },
+ "ten_year_event_list": [
+  "Q4: Pandemic Outbreak (severity 1.22)",
+  "Q5: Regulatory Reimbursement Cut (-3% Medicare) (severity 1.19)",
+  "Q8: Hospital System Merger (severity 0.85)",
+  "Q16: Regulatory Reimbursement Cut (-3% Medicare) (severity 0.80)",
+  "Q18: Gene Therapy Launch Claims Shock (severity 1.01)",
+  "Q24: Pandemic Outbreak (severity 0.71)",
+  "Q25: Positive Surprise: Cost Trend Falls (severity 0.82)",
+  "Q27: Antimicrobial Resistance Outbreak (severity 1.20)",
+  "Q28: Opioid-Style Litigation Wave (severity 1.23)",
+  "Q33: Regulatory Reimbursement Cut (-3% Medicare) (severity 1.02)",
+  "Q38: Cyberattack on Hospital Network (severity 0.89)",
+  "Q39: Hospital System Merger (severity 1.19)"
+ ],
+ "pandemic_replay": {
+  "ai": {
+   "total": 574,
+   "points": {
+    "insurance": 193.0,
+    "hospital": 146.0,
+    "pharma": 34.9,
+    "facility": 62.0,
+    "cross": 87.6,
+    "speed": 50.0
+   },
+   "hospital_defaults": 6
+  },
+  "naive": {
+   "total": 370,
+   "points": {
+    "insurance": 208.0,
+    "hospital": 87.0,
+    "pharma": 9.1,
+    "facility": 26.3,
+    "cross": 29.2,
+    "speed": 10.0
+   },
+   "hospital_defaults": 3
+  }
+ },
+ "player_vs_ai_example": {
+  "player": 412,
+  "ai": 559,
+  "gap_by_category": {
+   "insurance": -11.4,
+   "hospital": 50.1,
+   "pharma": -49.2,
+   "facility": 58.9,
+   "cross": 58.4,
+   "speed": 40.0
+  },
+  "biggest_gaps": [
+   "facility",
+   "cross"
+  ]
+ }
+}

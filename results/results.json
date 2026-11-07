@@ -1,0 +1,958 @@
+{
+ "note": "ALL RESULTS COME FROM SYNTHETIC DATA (see docs/report.md)",
+ "data": {
+  "members": 16000,
+  "train": 8080,
+  "test": 4013,
+  "embargo_members": 3907,
+  "hospitals": 320,
+  "hospital_quarters": 9508,
+  "trials": 1400,
+  "split": "train index years 2019-2020, embargo 2021, test 2022"
+ },
+ "data_quality": {
+  "1_completeness": {
+   "age": 1.0,
+   "sex": 1.0,
+   "plan": 1.0,
+   "prior_cost": 1.0,
+   "cost_12m": 1.0,
+   "hba1c_last": 0.213,
+   "egfr_last": 0.214
+  },
+  "2_accuracy_code_vs_note_agreement": 0.728,
+  "3_consistency_violations": {
+   "bph_in_females": 0,
+   "negative_cost": 0,
+   "mortality_without_age": 0,
+   "hba1c_without_diabetes": 0
+  },
+  "4_timeliness": "synthetic data has no reporting lag",
+  "5_conformity_icd10_share_valid": 1.0,
+  "6_duplicate_member_ids": 0,
+  "all_critical_checks_passed": true
+ },
+ "oracle_auroc_test": {
+  "mortality_1y": 0.866,
+  "readmission_30d": 0.791,
+  "note": "AUROC of the hidden true probabilities: the best any model could do on this synthetic data"
+ },
+ "clinical_nlp": {
+  "macro_auroc": 1.0,
+  "accuracy": 0.999,
+  "n_test": 4013,
+  "ner": {
+   "precision": 0.714,
+   "recall": 0.964,
+   "f1": 0.82,
+   "note": "cue words are templated, and only up to 5 conditions are mentioned per note"
+  },
+  "R2_notes_only_ln_cost": 0.03
+ },
+ "survival": {
+  "time_to_readmission": {
+   "n_train": 2505,
+   "n_test": 1227,
+   "events_test": 539,
+   "Cox_PH": {
+    "c_index": 0.658,
+    "td_auroc": {
+     "90": 0.698,
+     "180": 0.695
+    }
+   },
+   "DiscreteHazard_boosting": {
+    "c_index": 0.654,
+    "td_auroc": {
+     "90": 0.695,
+     "180": 0.689
+    }
+   }
+  },
+  "time_to_complication_diabetics": {
+   "n_train": 1845,
+   "n_test": 992,
+   "events_test": 530,
+   "static_early_labs": {
+    "Cox_PH": {
+     "c_index": 0.801,
+     "td_auroc": {
+      "3": 0.916,
+      "6": 0.895,
+      "12": 0.864,
+      "24": 0.853
+     }
+    },
+    "DiscreteHazard_boosting": {
+     "c_index": 0.795,
+     "td_auroc": {
+      "3": 0.925,
+      "6": 0.89,
+      "12": 0.855,
+      "24": 0.851
+     }
+    }
+   },
+   "updated_labs": {
+    "Cox_PH": {
+     "c_index": 0.817,
+     "td_auroc": {
+      "3": 0.932,
+      "6": 0.915,
+      "12": 0.877,
+      "24": 0.867
+     }
+    },
+    "DiscreteHazard_boosting": {
+     "c_index": 0.81,
+     "td_auroc": {
+      "3": 0.921,
+      "6": 0.901,
+      "12": 0.869,
+      "24": 0.866
+     }
+    }
+   },
+   "note": "updated labs stand in for Dynamic-DeepHit: the hazard is re-estimated when newer measurements arrive"
+  },
+  "time_to_covenant_breach_hospitals": {
+   "n_train": 178,
+   "n_test": 96,
+   "events_test": 39,
+   "Cox_PH_enhanced": {
+    "c_index": 0.713,
+    "td_auroc": {
+     "16": 0.778
+    }
+   },
+   "note": "landmark at 2018Q1, hospitals split by id (independent units)"
+  }
+ },
+ "prediction_tasks": {
+  "mortality_1y": {
+   "n_train": 8080,
+   "n_test": 4013,
+   "events_test": 106,
+   "LR_structured": {
+    "auroc": 0.797,
+    "auprc": 0.202,
+    "brier": 0.0233,
+    "prevalence": 0.0264,
+    "auroc_ci95": [
+     0.751,
+     0.844
+    ]
+   },
+   "HGB_structured": {
+    "auroc": 0.807,
+    "auprc": 0.186,
+    "brier": 0.0236,
+    "prevalence": 0.0264,
+    "auroc_ci95": [
+     0.76,
+     0.855
+    ]
+   },
+   "Graph_view": {
+    "auroc": 0.668,
+    "auprc": 0.063,
+    "brier": 0.0254,
+    "prevalence": 0.0264,
+    "auroc_ci95": [
+     0.615,
+     0.722
+    ]
+   },
+   "NLP_view": {
+    "auroc": 0.765,
+    "auprc": 0.074,
+    "brier": 0.0251,
+    "prevalence": 0.0264,
+    "auroc_ci95": [
+     0.729,
+     0.804
+    ]
+   },
+   "Survival_hazard": {
+    "auroc": 0.778,
+    "auprc": 0.1,
+    "brier": 0.0257,
+    "prevalence": 0.0264,
+    "auroc_ci95": [
+     0.725,
+     0.827
+    ]
+   },
+   "Stacked_ensemble": {
+    "auroc": 0.822,
+    "auprc": 0.205,
+    "brier": 0.0233,
+    "prevalence": 0.0264,
+    "auroc_ci95": [
+     0.782,
+     0.864
+    ],
+    "calibration_in_the_large": 1.038
+   },
+   "best_single_model": "HGB_structured",
+   "ensemble_beats_best_single": true,
+   "HGB_all_features": {
+    "auroc": 0.806,
+    "auprc": 0.155,
+    "brier": 0.024,
+    "prevalence": 0.0264
+   }
+  },
+  "readmission_30d": {
+   "n_train": 2505,
+   "n_test": 1227,
+   "events_test": 276,
+   "LR_structured": {
+    "auroc": 0.731,
+    "auprc": 0.463,
+    "brier": 0.1526,
+    "prevalence": 0.2249,
+    "auroc_ci95": [
+     0.7,
+     0.771
+    ]
+   },
+   "HGB_structured": {
+    "auroc": 0.725,
+    "auprc": 0.446,
+    "brier": 0.1538,
+    "prevalence": 0.2249,
+    "auroc_ci95": [
+     0.693,
+     0.764
+    ]
+   },
+   "Graph_view": {
+    "auroc": 0.613,
+    "auprc": 0.33,
+    "brier": 0.1687,
+    "prevalence": 0.2249,
+    "auroc_ci95": [
+     0.578,
+     0.653
+    ]
+   },
+   "NLP_view": {
+    "auroc": 0.679,
+    "auprc": 0.333,
+    "brier": 0.1625,
+    "prevalence": 0.2249,
+    "auroc_ci95": [
+     0.648,
+     0.714
+    ]
+   },
+   "Survival_hazard": {
+    "auroc": 0.73,
+    "auprc": 0.45,
+    "brier": 0.1532,
+    "prevalence": 0.2249,
+    "auroc_ci95": [
+     0.695,
+     0.764
+    ]
+   },
+   "Stacked_ensemble": {
+    "auroc": 0.746,
+    "auprc": 0.468,
+    "brier": 0.1497,
+    "prevalence": 0.2249,
+    "auroc_ci95": [
+     0.714,
+     0.784
+    ],
+    "calibration_in_the_large": 1.048
+   },
+   "best_single_model": "LR_structured",
+   "ensemble_beats_best_single": true,
+   "HGB_all_features": {
+    "auroc": 0.731,
+    "auprc": 0.446,
+    "brier": 0.1535,
+    "prevalence": 0.2249
+   }
+  }
+ },
+ "actuarial": {
+  "pricing": [
+   {
+    "model": "GLM baseline (rating factors, Tweedie 1.5)",
+    "predictive_ratio_all": 0.944,
+    "predictive_ratio_top5pct": 0.156,
+    "R2": -0.002,
+    "MAPE_individual_pct_positive_cost": 173.6,
+    "MAPE_cohort200_pct": 10.26,
+    "worst_subgroup_deviation_pct": 19.3,
+    "subgroup_ratios": {
+     "plan=0": 0.963,
+     "plan=1": 0.987,
+     "plan=2": 0.807,
+     "region=0": 0.881,
+     "region=1": 1.017,
+     "region=2": 0.955,
+     "region=3": 0.867,
+     "region=4": 0.969,
+     "region=5": 1.004,
+     "age=<60": 0.964,
+     "age=60-70": 0.917,
+     "age=70+": 0.955
+    }
+   },
+   {
+    "model": "Boosting, structured clinical features",
+    "predictive_ratio_all": 0.951,
+    "predictive_ratio_top5pct": 0.246,
+    "R2": 0.132,
+    "MAPE_individual_pct_positive_cost": 128.7,
+    "MAPE_cohort200_pct": 9.7,
+    "worst_subgroup_deviation_pct": 12.1,
+    "subgroup_ratios": {
+     "plan=0": 0.97,
+     "plan=1": 0.958,
+     "plan=2": 0.881,
+     "region=0": 0.879,
+     "region=1": 1.008,
+     "region=2": 0.9,
+     "region=3": 0.914,
+     "region=4": 0.949,
+     "region=5": 1.096,
+     "age=<60": 0.961,
+     "age=60-70": 0.932,
+     "age=70+": 0.961
+    }
+   },
+   {
+    "model": "Boosting, + notes and graph features (HealthRisk AI enhanced)",
+    "predictive_ratio_all": 0.948,
+    "predictive_ratio_top5pct": 0.248,
+    "R2": 0.14,
+    "MAPE_individual_pct_positive_cost": 123.8,
+    "MAPE_cohort200_pct": 9.98,
+    "worst_subgroup_deviation_pct": 12.1,
+    "subgroup_ratios": {
+     "plan=0": 0.96,
+     "plan=1": 0.963,
+     "plan=2": 0.882,
+     "region=0": 0.879,
+     "region=1": 0.993,
+     "region=2": 0.9,
+     "region=3": 0.912,
+     "region=4": 0.952,
+     "region=5": 1.089,
+     "age=<60": 0.962,
+     "age=60-70": 0.93,
+     "age=70+": 0.952
+    }
+   },
+   {
+    "model": "Stacked ensemble (ridge meta-learner)",
+    "predictive_ratio_all": 0.933,
+    "predictive_ratio_top5pct": 0.228,
+    "R2": 0.128,
+    "MAPE_individual_pct_positive_cost": 129.1,
+    "MAPE_cohort200_pct": 10.46,
+    "worst_subgroup_deviation_pct": 13.4,
+    "subgroup_ratios": {
+     "plan=0": 0.941,
+     "plan=1": 0.952,
+     "plan=2": 0.87,
+     "region=0": 0.866,
+     "region=1": 0.979,
+     "region=2": 0.883,
+     "region=3": 0.897,
+     "region=4": 0.941,
+     "region=5": 1.069,
+     "age=<60": 0.951,
+     "age=60-70": 0.917,
+     "age=70+": 0.93
+    }
+   }
+  ],
+  "risk_stratification_enhanced": {
+   "auroc_top5pct_cost": 0.748,
+   "top_decile_over_bottom_decile": 5.95,
+   "share_of_cost_in_top_decile": 0.228
+  },
+  "risk_stratification_glm": {
+   "auroc_top5pct_cost": 0.529,
+   "top_decile_over_bottom_decile": 1.08,
+   "share_of_cost_in_top_decile": 0.101
+  },
+  "loss_ratio_spread_by_risk_decile": {
+   "glm": {
+    "min": 0.75,
+    "max": 1.097,
+    "spread": 0.347
+   },
+   "enhanced": {
+    "min": 0.747,
+    "max": 1.004,
+    "spread": 0.257
+   }
+  },
+  "ibnr": {
+   "chain_ladder": {
+    "total_ibnr_est": 673.8,
+    "total_ibnr_true": 653.8,
+    "total_error_pct": 3.06,
+    "mean_abs_dev_recent_years_pct": 15.3,
+    "ultimate_MAPE_pct": 1.21
+   },
+   "bornhuetter_ferguson": {
+    "total_ibnr_est": 667.7,
+    "total_ibnr_true": 653.8,
+    "total_error_pct": 2.12,
+    "mean_abs_dev_recent_years_pct": 13.8,
+    "ultimate_MAPE_pct": 0.99
+   },
+   "emergence_adjusted_chain_ladder": {
+    "total_ibnr_est": 666.7,
+    "total_ibnr_true": 653.8,
+    "total_error_pct": 1.98,
+    "mean_abs_dev_recent_years_pct": 10.3,
+    "ultimate_MAPE_pct": 1.05
+   }
+  }
+ },
+ "hospital_credit": {
+  "pd_models": {
+   "traditional_scorecard_LR": {
+    "auroc": 0.772,
+    "gini": 0.544,
+    "ks": 0.448,
+    "brier": 0.0607
+   },
+   "enhanced_scorecard_LR": {
+    "auroc": 0.766,
+    "gini": 0.532,
+    "ks": 0.394,
+    "brier": 0.0608
+   },
+   "traditional_HGB": {
+    "auroc": 0.729,
+    "gini": 0.458,
+    "ks": 0.373,
+    "brier": 0.0649
+   },
+   "enhanced_HGB": {
+    "auroc": 0.74,
+    "gini": 0.479,
+    "ks": 0.351,
+    "brier": 0.0639
+   },
+   "n_train": 5694,
+   "n_test": 2178,
+   "train_events": 247,
+   "test_events": 161,
+   "enhanced_minus_traditional_auroc_ci95": [
+    -0.027,
+    0.013
+   ]
+  },
+  "early_warning": {
+   "breached_hospitals": 169,
+   "clinical_flag_detect_rate": 0.68,
+   "financial_flag_detect_rate": 0.722,
+   "median_lead_clinical_q": 7.0,
+   "median_lead_financial_q": 10.0,
+   "false_alarm_quarter_share_clinical": 0.177,
+   "false_alarm_quarter_share_financial": 0.288
+  },
+  "bond_spread_model": {
+   "spread_per_doubling_of_PD_bps": 147.0,
+   "R2": 0.355
+  },
+  "psi_train_vs_test": {
+   "op_margin": 0.572,
+   "dscr": 0.471,
+   "days_cash": 0.509,
+   "readmit_rate": 0.407,
+   "hcahps": 0.262,
+   "ed_boarding": 0.382
+  },
+  "worked_example": {
+   "PD_traditional": 0.0215,
+   "PD_enhanced": 0.038,
+   "pd_change_pct": 76.6,
+   "rating_traditional": "BBB",
+   "rating_enhanced": "BBB-"
+  }
+ },
+ "pharma": {
+  "phase_success_model": {
+   "auroc_model": 0.674,
+   "auroc_generic_phase_rate": 0.616,
+   "n_train": 675,
+   "n_test": 446
+  },
+  "pipeline_reports": {
+   "Alpha Oncology": {
+    "market_cap_B": 5.2,
+    "cash_B": 0.9,
+    "rNPV_mean_B": 2.57,
+    "rNPV_P10_B": 0.0,
+    "rNPV_P90_B": 5.8,
+    "pipeline_value_to_mcap": 0.5,
+    "revenue_concentration_top_drug": 0.56,
+    "candidates": {
+     "A1": {
+      "phase": 3,
+      "prob_of_approval": 0.515,
+      "expected_rnpv_B": 2.11
+     },
+     "A2": {
+      "phase": 2,
+      "prob_of_approval": 0.206,
+      "expected_rnpv_B": 0.347
+     },
+     "A3": {
+      "phase": 1,
+      "prob_of_approval": 0.106,
+      "expected_rnpv_B": 0.097
+     }
+    }
+   },
+   "Beta Immunology": {
+    "market_cap_B": 4.5,
+    "cash_B": 0.8,
+    "rNPV_mean_B": 1.74,
+    "rNPV_P10_B": 0.0,
+    "rNPV_P90_B": 3.99,
+    "pipeline_value_to_mcap": 0.39,
+    "revenue_concentration_top_drug": 0.69,
+    "candidates": {
+     "B1": {
+      "phase": 3,
+      "prob_of_approval": 0.515,
+      "expected_rnpv_B": 1.513
+     },
+     "B2": {
+      "phase": 2,
+      "prob_of_approval": 0.206,
+      "expected_rnpv_B": 0.174
+     },
+     "B3": {
+      "phase": 1,
+      "prob_of_approval": 0.106,
+      "expected_rnpv_B": 0.038
+     }
+    }
+   },
+   "Gamma Rare Disease": {
+    "market_cap_B": 2.0,
+    "cash_B": 0.4,
+    "rNPV_mean_B": 0.58,
+    "rNPV_P10_B": 0.0,
+    "rNPV_P90_B": 2.38,
+    "pipeline_value_to_mcap": 0.29,
+    "revenue_concentration_top_drug": 0.75,
+    "candidates": {
+     "C1": {
+      "phase": 2,
+      "prob_of_approval": 0.206,
+      "expected_rnpv_B": 0.48
+     },
+     "C2": {
+      "phase": 1,
+      "prob_of_approval": 0.106,
+      "expected_rnpv_B": 0.07
+     }
+    }
+   },
+   "Delta CNS": {
+    "market_cap_B": 7.5,
+    "cash_B": 1.6,
+    "rNPV_mean_B": 3.3,
+    "rNPV_P10_B": 0.0,
+    "rNPV_P90_B": 6.75,
+    "pipeline_value_to_mcap": 0.44,
+    "revenue_concentration_top_drug": 0.56,
+    "candidates": {
+     "D1": {
+      "phase": 3,
+      "prob_of_approval": 0.515,
+      "expected_rnpv_B": 2.157
+     },
+     "D2": {
+      "phase": 3,
+      "prob_of_approval": 0.515,
+      "expected_rnpv_B": 0.802
+     },
+     "D3": {
+      "phase": 2,
+      "prob_of_approval": 0.206,
+      "expected_rnpv_B": 0.249
+     },
+     "D4": {
+      "phase": 1,
+      "prob_of_approval": 0.106,
+      "expected_rnpv_B": 0.061
+     }
+    }
+   },
+   "Epsilon Vaccines": {
+    "market_cap_B": 3.0,
+    "cash_B": 1.2,
+    "rNPV_mean_B": 1.27,
+    "rNPV_P10_B": 0.0,
+    "rNPV_P90_B": 3.67,
+    "pipeline_value_to_mcap": 0.42,
+    "revenue_concentration_top_drug": 0.72,
+    "candidates": {
+     "E1": {
+      "phase": 2,
+      "prob_of_approval": 0.206,
+      "expected_rnpv_B": 0.619
+     },
+     "E2": {
+      "phase": 3,
+      "prob_of_approval": 0.515,
+      "expected_rnpv_B": 0.617
+     }
+    }
+   }
+  },
+  "pipeline_reports_generic_rates": {
+   "Alpha Oncology": {
+    "market_cap_B": 5.2,
+    "cash_B": 0.9,
+    "rNPV_mean_B": 2.4,
+    "rNPV_P10_B": 0.0,
+    "rNPV_P90_B": 5.61,
+    "pipeline_value_to_mcap": 0.46,
+    "revenue_concentration_top_drug": 0.56,
+    "candidates": {
+     "A1": {
+      "phase": 3,
+      "prob_of_approval": 0.493,
+      "expected_rnpv_B": 2.021
+     },
+     "A2": {
+      "phase": 2,
+      "prob_of_approval": 0.153,
+      "expected_rnpv_B": 0.257
+     },
+     "A3": {
+      "phase": 1,
+      "prob_of_approval": 0.096,
+      "expected_rnpv_B": 0.088
+     }
+    }
+   },
+   "Beta Immunology": {
+    "market_cap_B": 4.5,
+    "cash_B": 0.8,
+    "rNPV_mean_B": 1.63,
+    "rNPV_P10_B": 0.0,
+    "rNPV_P90_B": 3.87,
+    "pipeline_value_to_mcap": 0.36,
+    "revenue_concentration_top_drug": 0.69,
+    "candidates": {
+     "B1": {
+      "phase": 3,
+      "prob_of_approval": 0.493,
+      "expected_rnpv_B": 1.448
+     },
+     "B2": {
+      "phase": 2,
+      "prob_of_approval": 0.153,
+      "expected_rnpv_B": 0.129
+     },
+     "B3": {
+      "phase": 1,
+      "prob_of_approval": 0.096,
+      "expected_rnpv_B": 0.034
+     }
+    }
+   },
+   "Gamma Rare Disease": {
+    "market_cap_B": 2.0,
+    "cash_B": 0.4,
+    "rNPV_mean_B": 0.44,
+    "rNPV_P10_B": 0.0,
+    "rNPV_P90_B": 2.08,
+    "pipeline_value_to_mcap": 0.22,
+    "revenue_concentration_top_drug": 0.75,
+    "candidates": {
+     "C1": {
+      "phase": 2,
+      "prob_of_approval": 0.153,
+      "expected_rnpv_B": 0.356
+     },
+     "C2": {
+      "phase": 1,
+      "prob_of_approval": 0.096,
+      "expected_rnpv_B": 0.064
+     }
+    }
+   },
+   "Delta CNS": {
+    "market_cap_B": 7.5,
+    "cash_B": 1.6,
+    "rNPV_mean_B": 3.11,
+    "rNPV_P10_B": 0.0,
+    "rNPV_P90_B": 6.58,
+    "pipeline_value_to_mcap": 0.41,
+    "revenue_concentration_top_drug": 0.56,
+    "candidates": {
+     "D1": {
+      "phase": 3,
+      "prob_of_approval": 0.493,
+      "expected_rnpv_B": 2.065
+     },
+     "D2": {
+      "phase": 3,
+      "prob_of_approval": 0.493,
+      "expected_rnpv_B": 0.768
+     },
+     "D3": {
+      "phase": 2,
+      "prob_of_approval": 0.153,
+      "expected_rnpv_B": 0.185
+     },
+     "D4": {
+      "phase": 1,
+      "prob_of_approval": 0.096,
+      "expected_rnpv_B": 0.055
+     }
+    }
+   },
+   "Epsilon Vaccines": {
+    "market_cap_B": 3.0,
+    "cash_B": 1.2,
+    "rNPV_mean_B": 1.07,
+    "rNPV_P10_B": 0.0,
+    "rNPV_P90_B": 3.13,
+    "pipeline_value_to_mcap": 0.36,
+    "revenue_concentration_top_drug": 0.72,
+    "candidates": {
+     "E1": {
+      "phase": 2,
+      "prob_of_approval": 0.153,
+      "expected_rnpv_B": 0.459
+     },
+     "E2": {
+      "phase": 3,
+      "prob_of_approval": 0.493,
+      "expected_rnpv_B": 0.591
+     }
+    }
+   }
+  },
+  "patent_cliff_example": {
+   "revenue_path_B": [
+    2.5,
+    2.5,
+    2.5,
+    2.5,
+    2.5,
+    2.5,
+    2.5,
+    2.5,
+    1.5,
+    0.5,
+    0.5,
+    0.5
+   ],
+   "lost_in_3_years_after_expiry_B": 5.0
+  },
+  "portfolio_with_signal": {
+   "sharpe": 0.12,
+   "information_ratio": -0.04,
+   "max_drawdown_pct": -34.3,
+   "hit_rate_months_beating_benchmark_pct": 53.0,
+   "annual_return_pct": 1.8
+  },
+  "portfolio_without_signal": {
+   "sharpe": 0.14,
+   "information_ratio": -0.0,
+   "max_drawdown_pct": -31.9,
+   "hit_rate_months_beating_benchmark_pct": 43.4,
+   "annual_return_pct": 2.1
+  },
+  "trial_signal_example": {
+   "enrolment_signal": "POSITIVE",
+   "dropout_signal": "POSITIVE",
+   "competition_signal": "MODERATE RISK",
+   "model_probability_of_success": 0.567
+  },
+  "backtest_note": "signal alpha is built into the synthetic returns (IC about 0.06 assumed); the backtest checks the optimiser, not real alpha"
+ },
+ "explainability": {
+  "mortality_permutation_importance": {
+   "prior_cost_trend": 0.0427,
+   "nlp_complexity": 0.013,
+   "egfr_last": 0.0102,
+   "log_prior_cost": 0.0095,
+   "severity_cues": 0.0066,
+   "egfr_var": 0.0042,
+   "hcc_score": 0.0037,
+   "sbp": 0.0033,
+   "gnn_9": 0.0017,
+   "cond_heart_failure": 0.0017
+  },
+  "local_explanations": {
+   "highest": {
+    "predicted_1y_mortality": 0.6209,
+    "drivers": {
+     "prior_cost_trend": 0.5103,
+     "hcc_score": 0.2299,
+     "log_prior_cost": 0.1547,
+     "egfr_last": 0.1166,
+     "gnn_8": 0.1097,
+     "cond_heart_failure": 0.1055
+    }
+   },
+   "median": {
+    "predicted_1y_mortality": 0.0079,
+    "drivers": {
+     "prior_cost_trend": 0.0031,
+     "hba1c_last": 0.0028,
+     "sbp": -0.0027,
+     "egfr_last": -0.0025,
+     "gnn_9": 0.0017,
+     "egfr_var": 0.0016
+    }
+   },
+   "lowest": {
+    "predicted_1y_mortality": 0.0004,
+    "drivers": {
+     "severity_cues": -0.0003,
+     "hba1c_var": -0.0002,
+     "prior_cost_trend": -0.0002,
+     "nlp_complexity": -0.0001,
+     "sbp": -0.0001,
+     "adherence_mpr": 0.0
+    }
+   }
+  },
+  "premium_breakdown_example": {
+   "predicted_annual_cost": 19107.0,
+   "largest_contributions": {
+    "prior_cost_trend": 5626.0,
+    "nlp_complexity": 4428.0,
+    "hba1c_last": 4101.0,
+    "log_prior_cost": 3621.0,
+    "gnn_8": 3324.0,
+    "adherence_mpr": -2017.0
+   }
+  },
+  "counterfactuals_readmission": [
+   {
+    "start": 0.656,
+    "target": 0.17128071877862577,
+    "reached": false,
+    "final": 0.2902,
+    "steps": [
+     {
+      "change": "adherence_mpr",
+      "new_value": 0.76,
+      "risk_after": 0.6325
+     },
+     {
+      "change": "adherence_mpr",
+      "new_value": 0.81,
+      "risk_after": 0.5194
+     },
+     {
+      "change": "adherence_mpr",
+      "new_value": 0.86,
+      "risk_after": 0.5021
+     },
+     {
+      "change": "adherence_mpr",
+      "new_value": 0.91,
+      "risk_after": 0.473
+     },
+     {
+      "change": "adherence_mpr",
+      "new_value": 0.96,
+      "risk_after": 0.3831
+     },
+     {
+      "change": "adherence_mpr",
+      "new_value": 1.0,
+      "risk_after": 0.2902
+     }
+    ]
+   },
+   {
+    "start": 0.5671,
+    "target": 0.17128071877862577,
+    "reached": false,
+    "final": 0.5111,
+    "steps": [
+     {
+      "change": "adherence_mpr",
+      "new_value": 1.0,
+      "risk_after": 0.5111
+     }
+    ]
+   },
+   {
+    "start": 0.5868,
+    "target": 0.17128071877862577,
+    "reached": false,
+    "final": 0.3767,
+    "steps": [
+     {
+      "change": "adherence_mpr",
+      "new_value": 0.86,
+      "risk_after": 0.5218
+     },
+     {
+      "change": "adherence_mpr",
+      "new_value": 0.91,
+      "risk_after": 0.4678
+     },
+     {
+      "change": "adherence_mpr",
+      "new_value": 0.96,
+      "risk_after": 0.4069
+     },
+     {
+      "change": "adherence_mpr",
+      "new_value": 1.0,
+      "risk_after": 0.3767
+     }
+    ]
+   }
+  ],
+  "pdp_hba1c_mortality": {
+   "grid": [
+    NaN,
+    NaN,
+    NaN,
+    NaN,
+    NaN,
+    NaN,
+    NaN,
+    NaN,
+    NaN,
+    NaN,
+    NaN,
+    NaN
+   ],
+   "avg_risk": [
+    -0.7852,
+    -0.7852,
+    -0.7852,
+    -0.7852,
+    -0.7852,
+    -0.7852,
+    -0.7852,
+    -0.7852,
+    -0.7852,
+    -0.7852,
+    -0.7852,
+    -0.7852
+   ]
+  }
+ },
+ "feature_catalog_rows": 70
+}
